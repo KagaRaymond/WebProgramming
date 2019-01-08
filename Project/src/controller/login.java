@@ -29,7 +29,6 @@ public class login extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/login.jsp");
 		dispatcher.forward(request,  response);
@@ -42,6 +41,15 @@ public class login extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
+
+		//リクエストパラメータの文字コードを指定
+		request.setCharacterEncoding("UTF-8");
+
+		//リクエストパラメータの入力項目を取得
+		String loginId = request.getParameter("loginId");
+		String password = request.getParameter("password");
+
+
 	}
 
 }
