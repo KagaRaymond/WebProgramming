@@ -8,14 +8,15 @@
 <title>Insert title here</title>
 </head>
 <body>
-ユーザ名 さん<p><a href="">ログアウト</a></p><br>
+ユーザ名 さん<p><a href="login">ログアウト</a></p><br>
 
 <h1>ユーザ削除確認</h1>
 
 ログインid : id0001<br>
 を本当に削除してよろしいでしょうか。<br>
-
+<form method="post" action ="users">
 <input type="submit" value="キャンセル">
+</form>
 <input type="submit" value="OK">
 </body>
 </html>

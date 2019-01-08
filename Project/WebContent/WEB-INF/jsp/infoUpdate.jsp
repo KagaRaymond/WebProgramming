@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-ユーザ名 さん<p><a href="">ログアウト</a></p><br>
+ユーザ名 さん<p><a href="login">ログアウト</a></p><br>
 
 <h1>ユーザ情報更新</h1>
 
@@ -19,7 +19,7 @@
 生年月日　<input type="text" name="birth" value="1989/04/26"><br>
 <input type="submit" value="更新"><br>
 
-<p><a href="">戻る</a></p>
+<p><a href="users">戻る</a></p>
 
 
 </body>

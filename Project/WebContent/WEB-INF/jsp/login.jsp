@@ -9,10 +9,10 @@
 </head>
 <body>
 <h1>ログイン画面</h1>
-
+<form method="post" action="login">
 ログインid	<input type="text" id="id"><br>
 パスワード	<input type="password" name="password"><br>
 <input type="submit" value="ログイン">
-
+</form>
 </body>
 </html>

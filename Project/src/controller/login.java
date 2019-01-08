@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.UserDao;
+
 /**
  * Servlet implementation class login
  */
@@ -40,7 +42,6 @@ public class login extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
 
 		//リクエストパラメータの文字コードを指定
 		request.setCharacterEncoding("UTF-8");
@@ -49,7 +50,20 @@ public class login extends HttpServlet {
 		String loginId = request.getParameter("loginId");
 		String password = request.getParameter("password");
 
+		//リクエストパラメータの入力項目を引数に渡して、Daoのメソッドを実行
+		UserDao userDao = new UserDao();
+		User user = userDao.findByLoginInfo(loginId, password);
 
+		/** テーブルに該当のデータが見つからなかった場合　**/
+		if(user == null) {
+			//リクエストスコープにエラーメッセージをセット
+			request.setAttribute("errMsg","ログインに失敗しました。");
+
+			//ログインjspにフォワード
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
+			dispatcher.forward(request, response);
+			return;
+		}
 	}
 
 }
