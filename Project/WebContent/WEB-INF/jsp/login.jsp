@@ -9,8 +9,16 @@
 </head>
 <body>
 <h1>ログイン画面</h1>
+
+<c:if test="${errMsg != null}" >
+	    <div class="alert alert-danger" role="alert">
+		  ${errMsg}
+		</div>
+	</c:if>
+
+
 <form method="post" action="login">
-ログインid	<input type="text" id="id"><br>
+ログインid	<input type="text" id="id" name="loginId"><br>
 パスワード	<input type="password" name="password"><br>
 <input type="submit" value="ログイン">
 </form>

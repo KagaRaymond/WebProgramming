@@ -12,7 +12,7 @@
 
 <h1>ユーザ新規登録</h1>
 
-ログインid	<input type="text" id="id"><br>
+ログインid	<input type="text" id="id" name="loginId"><br>
 パスワード	<input type="password" name="password"><br>
 パスワード(確認)	<input type="password" name="pass"><br>
 ユーザ名	<input type="text" name="name"><br>

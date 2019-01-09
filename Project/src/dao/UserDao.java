@@ -115,5 +115,41 @@ public class UserDao {
         }
         return userList;
     }
+
+    public void main(String loginId, String password, String name, String birth_date) {
+    	Connection conn = null;
+    	try {
+    		//データベースへ接続
+    		conn = DBManager.getConnection();
+
+    		//INSERT文を準備
+    		String sql = "INSERT INTO user(loginId, password, name, birth_date, create_date, update_date)VALUES(?,?,?,?,now(),now());";
+
+    		//INSERTを実行
+    		PreparedStatement stmt = conn.prepareStatement(sql);
+
+    		stmt.setString(1,loginId);
+    		stmt.setString(2,password);
+    		stmt.setString(3,name);
+    		stmt.setString(4,birth_date);
+
+
+    		int result = stmt.executeUpdate();
+    		//追加された行数を出力
+    		System.out.println(result);
+    		stmt.close();
+    	}catch(SQLException e) {
+    		e.printStackTrace();
+    	}finally {
+    		 // データベース切断
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+    	}
+    }
 }
 

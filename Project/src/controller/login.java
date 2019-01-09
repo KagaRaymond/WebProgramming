@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.UserDao;
 
@@ -36,7 +37,6 @@ public class login extends HttpServlet {
 		dispatcher.forward(request,  response);
 
 	}
-
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -52,7 +52,7 @@ public class login extends HttpServlet {
 
 		//リクエストパラメータの入力項目を引数に渡して、Daoのメソッドを実行
 		UserDao userDao = new UserDao();
-		User user = userDao.findByLoginInfo(loginId, password);
+		model.User user = userDao.findByLoginInfo(loginId, password);
 
 		/** テーブルに該当のデータが見つからなかった場合　**/
 		if(user == null) {
@@ -60,10 +60,18 @@ public class login extends HttpServlet {
 			request.setAttribute("errMsg","ログインに失敗しました。");
 
 			//ログインjspにフォワード
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/login.jsp");
 			dispatcher.forward(request, response);
 			return;
 		}
+		/** テーブルに該当のデータが見つかった場合 **/
+		// セッションにユーザの情報をセット
+		HttpSession session = request.getSession();
+		session.setAttribute("users", user);
+
+		// ユーザ一覧のサーブレットにリダイレクト
+		// リダイレクトは指定した名前のサーブレットにGETアクセス
+		response.sendRedirect("users");
 	}
 
 }

@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="css/style.css">
 <title>Insert title here</title>
 </head>
 <body>
@@ -25,59 +26,27 @@
 <th>生年月日</th>
 <th></th>
 </tr>
+<c:forEach var="user" items="${userList}" >
 <tr>
-<td>id0001</td>
-<td>田中太郎</td>
-<td>1989年04月26日</td>
+<td>${user.loginId}</td>
+<td>${user.name}</td>
+<td>${user.birthDate}</td>
 <td>
-<form method="post" action="userInfo">
+<form method="post" action="userInfo" class="btn">
 <input type="submit" value="詳細">
 </form>
-<form method="post" action="infoUpdate">
+<form method="post" action="infoUpdate" class="btn">
 <input type="submit" value="更新">
 </form>
-<form method="post" action="userDelete">
-<input type="submit" value="削除">
-</form>
-</td>
-
-</tr>
-<tr>
-<td>id0002</td>
-<td>佐藤二郎</td>
-<td>2001年11月12日</td>
-<td>
-<form method="post" action="userInfo">
-<input type="submit" value="詳細">
-</form>
-<form method="post" action="infoUpdate">
-<input type="submit" value="更新">
-</form>
-<form method="post" action="userDelete">
+<form method="post" action="userDelete" class="btn">
 <input type="submit" value="削除">
 </form>
 </td>
 </tr>
-<tr>
-<td>id0003</td>
-<td>佐川真司</td>
-<td>2000年01月01日</td>
-<td>
-<form method="post" action="userInfo">
-<input type="submit" value="詳細">
-</form>
-<form method="post" action="infoUpdate">
-<input type="submit" value="更新">
-</form>
-<form method="post" action="userDelete">
-<input type="submit" value="削除">
-</form>
-</td>
-</tr>
+</c:forEach>
 
 </table>
 
 
-</table>
 </body>
 </html>
