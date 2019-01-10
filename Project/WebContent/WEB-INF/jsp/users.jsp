@@ -32,13 +32,13 @@
 <td>${user.name}</td>
 <td>${user.birthDate}</td>
 <td>
-<form method="post" action="userInfo" class="btn">
+<form method="get" action="userInfo?id=${user.id}" class="btn">
 <input type="submit" value="詳細">
 </form>
-<form method="post" action="infoUpdate" class="btn">
+<form method="get" action="infoUpdate?id=${user.id}" class="btn">
 <input type="submit" value="更新">
 </form>
-<form method="post" action="userDelete" class="btn">
+<form method="get" action="userDelete?id=${user.id}" class="btn">
 <input type="submit" value="削除">
 </form>
 </td>

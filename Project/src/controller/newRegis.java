@@ -49,13 +49,16 @@ public class newRegis extends HttpServlet {
 				//リクエストパラメータの入力項目を取得
 				String loginId = request.getParameter("loginId");
 				String password = request.getParameter("password");
-				String pass = request.getParameter("pass");
 				String name = request.getParameter("name");
 				String birth_date = request.getParameter("birth_date");
 
 				//リクエストパラメータの入力項目を引数に渡して、Daoのメソッドを実行
 				UserDao userDao = new UserDao();
-				model.User user = userDao.main(loginId, password, name, birth_date);
-	}
+				userDao.main(loginId, password, name, birth_date);
 
+				// ユーザ一覧のサーブレットにリダイレクト
+				// リダイレクトは指定した名前のサーブレットにGETアクセス
+				response.sendRedirect("users");
+
+	}
 }

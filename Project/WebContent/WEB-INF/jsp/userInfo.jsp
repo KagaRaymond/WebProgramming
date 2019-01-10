@@ -13,10 +13,10 @@
 
 <h1>ユーザ情報詳細参照</h1>
 
-ログインid	id0001<br>
-ユーザ名	田中太郎<br>
-生年月日	1989年04月26日<br>
-登録日時　2017年01月01日 10:50<br>
+ログインid	${user.loginId}<br>
+ユーザ名	${user.name}<br>
+生年月日	${user.birth_date}<br>
+登録日時　  ${uesr.create_date}<br>
 更新日時　2017年02月01日 01:05<br>
 
 <p><a href="users">戻る</a></p>

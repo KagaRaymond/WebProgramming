@@ -123,7 +123,7 @@ public class UserDao {
     		conn = DBManager.getConnection();
 
     		//INSERT文を準備
-    		String sql = "INSERT INTO user(loginId, password, name, birth_date, create_date, update_date)VALUES(?,?,?,?,now(),now());";
+    		String sql = "INSERT INTO user(login_id, password, name, birth_date, create_date, update_date)VALUES(?,?,?,?,now(),now());";
 
     		//INSERTを実行
     		PreparedStatement stmt = conn.prepareStatement(sql);
@@ -150,6 +150,90 @@ public class UserDao {
                 }
             }
     	}
+    }
+
+    public static void main(String[]args) {
+    	Connection conn = null;
+    	try {
+    		//データベースへ接続
+    		conn = DBManager.getConnection();
+
+    		//SELECT文を準備
+    		String sql = "SELECT login_id, name, birth_date, create_date FROM user";
+
+    		//SELECTを実行し、結果表（ResultSet）を取得
+    		Statement stmt = conn. createStatement();
+    		ResultSet rs = stmt.executeQuery(sql);
+
+    		while(rs.next()) {
+    			String login_id = rs.getString("login_id");
+    			String name = rs.getString("name");
+    			String birth_date = rs.getString("birth_date");
+    			String create_date = rs.getString("create_date");
+
+    		}
+    		stmt.close();
+    	}catch(SQLException e) {
+    		e.printStackTrace();
+    	}finally {
+    		//データベース切断
+    		if(conn !=null) {
+    			try {
+    				conn.close();
+    			}catch(SQLException e) {
+    				e.printStackTrace();
+    			}
+    		}
+    	}
+    }
+
+    /**
+     * idに紐づくユーザ情報を取得する
+     * @return
+     */
+    public User findUserById(String id) {
+        Connection conn = null;
+        try {
+            // データベースへ接続
+            conn = DBManager.getConnection();
+
+            // SELECT文を準備
+            String sql = "SELECT * FROM user WHERE id=?";
+
+             // SELECTを実行し、結果表を取得
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            ResultSet rs = stmt.executeQuery();
+
+            // 結果表に格納されたレコードの内容を
+            // Userインスタンスに設定し、ArrayListインスタンスに追加
+            if (rs.next()) {
+                int Id = rs.getInt("id");
+                String loginId = rs.getString("login_id");
+                String name = rs.getString("name");
+                Date birthDate = rs.getDate("birth_date");
+                String password = rs.getString("password");
+                String createDate = rs.getString("create_date");
+                String updateDate = rs.getString("update_date");
+                User user = new User(Id, loginId, name, birthDate, password, createDate, updateDate);
+
+                return user;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            // データベース切断
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+        }
+        return null;
     }
 }
 
