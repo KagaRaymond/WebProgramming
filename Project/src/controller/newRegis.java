@@ -54,7 +54,7 @@ public class newRegis extends HttpServlet {
 
 				//リクエストパラメータの入力項目を引数に渡して、Daoのメソッドを実行
 				UserDao userDao = new UserDao();
-				userDao.main(loginId, password, name, birth_date);
+				userDao.userInsert(loginId, password, name, birth_date);
 
 				// ユーザ一覧のサーブレットにリダイレクト
 				// リダイレクトは指定した名前のサーブレットにGETアクセス

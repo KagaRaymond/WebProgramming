@@ -32,15 +32,9 @@
 <td>${user.name}</td>
 <td>${user.birthDate}</td>
 <td>
-<form method="get" action="userInfo?id=${user.id}" class="btn">
-<input type="submit" value="詳細">
-</form>
-<form method="get" action="infoUpdate?id=${user.id}" class="btn">
-<input type="submit" value="更新">
-</form>
-<form method="get" action="userDelete?id=${user.id}" class="btn">
-<input type="submit" value="削除">
-</form>
+<a href="userInfo?id=${user.id}">詳細</a>
+<a href="infoUpdate?id=${user.id}">更新</a>
+<a href="userDdelete?id=${user.id}">削除</a>
 </td>
 </tr>
 </c:forEach>

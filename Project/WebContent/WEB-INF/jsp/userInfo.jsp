@@ -13,13 +13,16 @@
 
 <h1>ユーザ情報詳細参照</h1>
 
+
+<form method="get" action="userInfo">
+
 ログインid	${user.loginId}<br>
 ユーザ名	${user.name}<br>
-生年月日	${user.birth_date}<br>
-登録日時　  ${uesr.create_date}<br>
-更新日時　2017年02月01日 01:05<br>
+生年月日	${user.birthDate}<br>
+登録日時　  ${user.createDate}<br>
+更新日時　  ${user.updateDate}<br>
 
 <p><a href="users">戻る</a></p>
-
+</form>
 </body>
 </html>

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.UserDao;
+import model.User;
 
 /**
  * Servlet implementation class userInfo
@@ -32,7 +33,15 @@ public class userInfo extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
+		//リクエストパラメータの文字コードを指定
+		request.setCharacterEncoding("UTF-8");
+
+		String id = request.getParameter("id");
+
 		UserDao userDao = new UserDao();
+		User userInfo = userDao.findUserById(id);
+
+		request.setAttribute("user", userInfo);
 
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/userInfo.jsp");
@@ -47,7 +56,8 @@ public class userInfo extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+
+
 	}
 
 }

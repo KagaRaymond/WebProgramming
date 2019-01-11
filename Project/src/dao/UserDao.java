@@ -116,15 +116,48 @@ public class UserDao {
         return userList;
     }
 
-    public void main(String loginId, String password, String name, String birth_date) {
+    public void userUpdate(String password, String name, String birth_date, String loginId) {
     	Connection conn = null;
     	try {
     		//データベースへ接続
     		conn = DBManager.getConnection();
 
+    		//UPDATE文を準備
+    		String sql = "UPDATE user SET password=?, name=?, birth_date=? WHERE login_id=?;";
+
+    		//UPDATEを実行
+    		PreparedStatement stmt = conn.prepareStatement(sql);
+
+    		stmt.setString(1, password);
+    		stmt.setString(2, name);
+    		stmt.setString(3, birth_date);
+    		stmt.setString(4, loginId);
+
+    		int result = stmt.executeUpdate();
+    		System.out.println(result);
+    		stmt.close();
+    	}catch(SQLException e) {
+    		e.printStackTrace();
+    	}finally {
+   		 // データベース切断
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+    	}
+
+    }
+
+    public void userInsert(String loginId, String password, String name, String birth_date) {
+    	Connection conn = null;
+    	try {
+    		//データベースへ接続
+    		conn = DBManager.getConnection();
     		//INSERT文を準備
     		String sql = "INSERT INTO user(login_id, password, name, birth_date, create_date, update_date)VALUES(?,?,?,?,now(),now());";
-
     		//INSERTを実行
     		PreparedStatement stmt = conn.prepareStatement(sql);
 
@@ -132,7 +165,6 @@ public class UserDao {
     		stmt.setString(2,password);
     		stmt.setString(3,name);
     		stmt.setString(4,birth_date);
-
 
     		int result = stmt.executeUpdate();
     		//追加された行数を出力
@@ -202,6 +234,7 @@ public class UserDao {
 
              // SELECTを実行し、結果表を取得
             PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, id);
 
             ResultSet rs = stmt.executeQuery();
 
@@ -235,5 +268,7 @@ public class UserDao {
         }
         return null;
     }
+
+
 }
 
