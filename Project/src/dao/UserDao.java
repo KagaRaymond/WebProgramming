@@ -150,6 +150,38 @@ public class UserDao {
     	}
 
     }
+    /**
+     * idに紐づくユーザ情報を取得する
+     * @return
+     */
+    public void userDelete(String id) {
+    	Connection conn = null;
+    	try {
+    		//データベースへ接続
+    		conn = DBManager.getConnection();
+    		//DELETE文を準備
+    		String sql = "DELETE FROM user WHERE login_id =?;";
+
+    		//DELETEを実行
+    		PreparedStatement stmt = conn.prepareStatement(sql);
+
+    		stmt.setString(1,id);
+
+    		stmt.executeUpdate();
+    		stmt.close();
+    	}catch(SQLException e) {
+    		e.printStackTrace();
+    	}finally {
+    		//データベース切断
+    		if(conn != null) {
+    			try {
+    				conn.close();
+    			}catch (SQLException e) {
+    				e.printStackTrace();
+    			}
+    		}
+    	}
+    }
 
     public void userInsert(String loginId, String password, String name, String birth_date) {
     	Connection conn = null;
@@ -166,9 +198,7 @@ public class UserDao {
     		stmt.setString(3,name);
     		stmt.setString(4,birth_date);
 
-    		int result = stmt.executeUpdate();
-    		//追加された行数を出力
-    		System.out.println(result);
+    		stmt.executeUpdate();
     		stmt.close();
     	}catch(SQLException e) {
     		e.printStackTrace();

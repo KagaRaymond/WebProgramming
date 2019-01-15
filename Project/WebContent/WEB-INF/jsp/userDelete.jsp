@@ -12,11 +12,15 @@
 
 <h1>ユーザ削除確認</h1>
 
-ログインid : id0001<br>
+<form method="post" action="userDelete">
+
+ログインid : ${user.loginId}<br>
 を本当に削除してよろしいでしょうか。<br>
-<form method="post" action ="users">
-<input type="submit" value="キャンセル">
-</form>
+
+<p><a href="users">キャンセル</a></p>
+
+<input type="hidden" name="loginId" value ="${user.loginId}">
 <input type="submit" value="OK">
+</form>
 </body>
 </html>

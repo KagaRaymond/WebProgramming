@@ -34,7 +34,7 @@
 <td>
 <a href="userInfo?id=${user.id}">詳細</a>
 <a href="infoUpdate?id=${user.id}">更新</a>
-<a href="userDdelete?id=${user.id}">削除</a>
+<a href="userDelete?id=${user.id}">削除</a>
 </td>
 </tr>
 </c:forEach>

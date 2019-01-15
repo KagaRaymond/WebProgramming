@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.UserDao;
+import model.User;
+
 /**
  * Servlet implementation class userDelete
  */
@@ -30,17 +33,36 @@ public class userDelete extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
+		//リクエストパラメータの文字コードを指定
+		request.setCharacterEncoding("UTF-8");
+
+		String id = request.getParameter("id");
+
+		UserDao userDao = new UserDao();
+		User userInfo = userDao.findUserById(id);
+
+		request.setAttribute("user", userInfo);
+
+
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/userDelete.jsp");
 		dispatcher.forward(request,  response);
-
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+
+		request.setCharacterEncoding("UTF-8");
+
+		String id = request.getParameter("loginId");
+
+		UserDao userDao = new UserDao();
+		userDao.userDelete(id);
+
+		// リダイレクトは指定した名前のサーブレットにGETアクセス
+		response.sendRedirect("users");
+
 	}
 
 }

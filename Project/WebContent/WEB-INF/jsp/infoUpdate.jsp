@@ -12,18 +12,17 @@
 
 <h1>ユーザ情報更新</h1>
 
-<form method="get" action="infoUpdate">
+<form method="post" action="infoUpdate">
 
 ログインid	${user.loginId}<br>
-パスワード	<input type="password" name="password" value =${user.password}><br>
-パスワード(確認)	<input type="password" name=${user.password}> <br>
-ユーザ名　<input type="text" name="name" value=${user.name}><br>
-生年月日　<input type="text" name="birth" value=${user.birthDate}><br>
-<input type="hidden" name="createDate" value=${user.createDate}>
-<input type="hidden" name="updateDate" value=${user.updateDate}>
+<input type="hidden" name="loginId" value ="${user.loginId}">
+パスワード	<input type="password" name="password" value ="${user.password}"><br>
+パスワード(確認)	<input type="password" name="${user.password}"> <br>
+ユーザ名　<input type="text" name="name" value="${user.name}"><br>
+生年月日　<input type="text" name="birth_date" value="${user.birthDate}"><br>
+<input type="hidden" name="createDate" value="${user.createDate}">
+<input type="hidden" name="updateDate" value="${user.updateDate}">
 
-</form>
-<form method="post" action="infoUpdate">
 <input type="submit" value="更新"><br>
 </form>
 

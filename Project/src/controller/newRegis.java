@@ -56,6 +56,19 @@ public class newRegis extends HttpServlet {
 				UserDao userDao = new UserDao();
 				userDao.userInsert(loginId, password, name, birth_date);
 
+				/** 既に登録されているログインIDが入力された場合の登録失敗仕様　**/
+
+
+
+				/** パスワードとパスワード(確認)の入力内容が異なる場合の登録失敗仕様　**/
+
+
+
+				/** 入力項目に一つでも未入力のものがある場合の登録失敗仕様　**/
+
+
+
+
 				// ユーザ一覧のサーブレットにリダイレクト
 				// リダイレクトは指定した名前のサーブレットにGETアクセス
 				response.sendRedirect("users");
