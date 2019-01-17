@@ -9,7 +9,7 @@
 </head>
 <body>
 
-ユーザ名 さん<p><a href="login">ログアウト</a></p><br>
+${users.name} さん<p><a href="login">ログアウト</a></p><br>
 
 <h1>ユーザ情報詳細参照</h1>
 

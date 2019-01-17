@@ -1,6 +1,9 @@
 package controller;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -59,13 +62,68 @@ public class infoUpdate extends HttpServlet {
 
 		//リクエストパラメータの入力項目を取得
 		String password = request.getParameter("password");
+		String password2 = request.getParameter("password2");
 		String name = request.getParameter("name");
 		String birth_date = request.getParameter("birth_date");
 		String loginId = request.getParameter("loginId");
 
-		//リクエストパラメータの入力項目を引数に渡して、Daoのメソッドを実行
 		UserDao userDao = new UserDao();
+
+		/** パスワードとパスワード(確認)の入力内容が異なる場合 **/
+		if(!password.equals(password2)) {
+			//リクエストスコープにエラーメッセージをセット
+			request.setAttribute("errMsg","パスワードが一致しておりません");
+
+			User user = new User();
+			user.setLoginId(loginId);
+			user.setName(name);
+			try {
+				user.setBirthDate(new Date(new SimpleDateFormat("yyyy-MM-dd").parse(birth_date).getTime()));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+
+			request.setAttribute("user", user);
+
+			//新規登録jspにフォワード
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/infoUpdate.jsp");
+			dispatcher.forward(request, response);
+			return;
+		}
+
+		/** パスワード以外に未入力の項目がある場合 **/
+
+		if(name.isEmpty() || birth_date.isEmpty()) {
+			//リクエストスコープにエラーメッセージをセット
+			request.setAttribute("errMsg","入力項目に未入力のものがあります");
+
+			User user = new User();
+			user.setLoginId(loginId);
+			user.setName(name);
+			try {
+				user.setBirthDate(new Date(new SimpleDateFormat("yyyy-MM-dd").parse(birth_date).getTime()));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+
+			request.setAttribute("user", user);
+
+
+			//新規登録jspにフォワード
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/infoUpdate.jsp");
+			dispatcher.forward(request, response);
+			return;
+		}
+
+		if(password.isEmpty() && password2.isEmpty()) {
+			//リクエストパラメータの入力項目を引数に渡して、Daoのメソッドを実行
+			userDao.updateInsert(name, birth_date, loginId);
+
+		}else {
+
+		//リクエストパラメータの入力項目を引数に渡して、Daoのメソッドを実行
 		userDao.userUpdate(password, name, birth_date, loginId);
+		}
 
 		// ユーザ一覧のサーブレットにリダイレクト
 		// リダイレクトは指定した名前のサーブレットにGETアクセス

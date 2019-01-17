@@ -8,18 +8,25 @@
 <title>Insert title here</title>
 </head>
 <body>
-ユーザ名 さん<p><a href="login">ログアウト</a></p><br>
+${users.name} さん<p><a href="login">ログアウト</a></p><br>
 
 <h1>ユーザ情報更新</h1>
 
 <form method="post" action="infoUpdate">
 
+<c:if test="${errMsg != null}" >
+	    <div class="alert alert-danger" role="alert">
+		  ${errMsg}
+		</div>
+	</c:if>
+
+
 ログインid	${user.loginId}<br>
 <input type="hidden" name="loginId" value ="${user.loginId}">
-パスワード	<input type="password" name="password" value ="${user.password}"><br>
-パスワード(確認)	<input type="password" name="${user.password}"> <br>
+パスワード	<input type="password" name=password><br>
+パスワード(確認)	<input type="password" name=password2> <br>
 ユーザ名　<input type="text" name="name" value="${user.name}"><br>
-生年月日　<input type="text" name="birth_date" value="${user.birthDate}"><br>
+生年月日　<input type="date" name="birth_date" value="${user.birthDate}"><br>
 <input type="hidden" name="createDate" value="${user.createDate}">
 <input type="hidden" name="updateDate" value="${user.updateDate}">
 

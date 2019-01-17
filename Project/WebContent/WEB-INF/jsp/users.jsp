@@ -9,7 +9,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-ユーザ名 さん<p><a href="login">ログアウト</a></p>
+<form method="get" action="users">
+${users.name} さん<p><a href="login">ログアウト</a></p>
 
 <h1>ユーザ一覧</h1>
 <p><a href="newRegis">新規登録</a></p><br>
@@ -18,6 +19,7 @@
 生年月日　<input type="date" name="birth" value="年/月/日">
 ～　<input type="date" name="birth2" value="年/月/日"><br>
 <input type="submit" value="検索">
+</form>
 
 <table border="1">
 <tr>

@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-ユーザ名 さん<p><a href="login">ログアウト</a></p><br>
+${users.name} さん<p><a href="login">ログアウト</a></p><br>
 
 <h1>ユーザ削除確認</h1>
 

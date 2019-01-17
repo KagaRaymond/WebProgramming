@@ -24,6 +24,53 @@ public class UserDao {
      * @param password
      * @return
      */
+
+	public User searchByLoginId(String loginId) {
+        Connection conn = null;
+        try {
+            // データベースへ接続
+            conn = DBManager.getConnection();
+
+            // SELECT文を準備
+            String sql = "SELECT * FROM user WHERE login_id = ?";
+
+             // SELECTを実行し、結果表を取得
+            PreparedStatement pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, loginId);
+            ResultSet rs = pStmt.executeQuery();
+
+            // 主キーに紐づくレコードは1件のみなので、rs.next()は1回だけ行う
+           if (!rs.next()) {
+               return null;
+           }
+
+            String loginIdData = rs.getString("login_id");
+
+            if(loginIdData == null) {
+                return null;
+
+            }else {
+            	return new User(loginIdData);
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            // データベース切断
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+        }
+
+	}
+
     public User findByLoginInfo(String loginId, String password) {
         Connection conn = null;
         try {
@@ -116,6 +163,8 @@ public class UserDao {
         return userList;
     }
 
+    /** 更新するメソッド **/
+
     public void userUpdate(String password, String name, String birth_date, String loginId) {
     	Connection conn = null;
     	try {
@@ -133,9 +182,9 @@ public class UserDao {
     		stmt.setString(3, birth_date);
     		stmt.setString(4, loginId);
 
-    		int result = stmt.executeUpdate();
-    		System.out.println(result);
+    		stmt.executeUpdate();
     		stmt.close();
+
     	}catch(SQLException e) {
     		e.printStackTrace();
     	}finally {
@@ -213,6 +262,42 @@ public class UserDao {
             }
     	}
     }
+    /** パスワード以外を更新するメソッド **/
+
+    public void updateInsert(String name, String birth_date, String loginId) {
+    	Connection conn = null;
+    	try {
+    		//データベースへ接続
+    		conn = DBManager.getConnection();
+
+    		//UPDATE文を準備
+    		String sql = "UPDATE user SET name=?, birth_date=? WHERE login_id=?;";
+
+    		//UPDATEを実行
+    		PreparedStatement stmt = conn.prepareStatement(sql);
+
+    		stmt.setString(1, name);
+    		stmt.setString(2, birth_date);
+    		stmt.setString(3, loginId);
+
+    		stmt.executeUpdate();
+    		stmt.close();
+
+    	}catch(SQLException e) {
+    		e.printStackTrace();
+    	}finally {
+   		 // データベース切断
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+    	}
+
+    }
+
 
     public static void main(String[]args) {
     	Connection conn = null;
