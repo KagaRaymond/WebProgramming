@@ -6,11 +6,11 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="css/style.css">
-<title>Insert title here</title>
+<title>ユーザ一覧画面</title>
 </head>
 <body>
+${users.name} さん<p><a href="LogoutServlet">ログアウト</a></p>
 <form method="get" action="users">
-${users.name} さん<p><a href="login">ログアウト</a></p>
 
 <h1>ユーザ一覧</h1>
 <p><a href="newRegis">新規登録</a></p><br>
@@ -35,8 +35,17 @@ ${users.name} さん<p><a href="login">ログアウト</a></p>
 <td>${user.birthDate}</td>
 <td>
 <a href="userInfo?id=${user.id}">詳細</a>
+
+<c:if test="${users.loginId == 'admin'}">
 <a href="infoUpdate?id=${user.id}">更新</a>
 <a href="userDelete?id=${user.id}">削除</a>
+</c:if>
+
+<c:if test="${users.loginId != 'admin'}">
+<c:if test="${users.loginId == user.loginId}">
+<a href="infoUpdate?id=${user.id}">更新</a>
+</c:if>
+</c:if>
 </td>
 </tr>
 </c:forEach>

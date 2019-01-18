@@ -1,5 +1,9 @@
 package dao;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -8,6 +12,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.bind.DatatypeConverter;
 
 import model.User;
 
@@ -82,8 +88,20 @@ public class UserDao {
 
              // SELECTを実行し、結果表を取得
             PreparedStatement pStmt = conn.prepareStatement(sql);
+
+            //ハッシュを生成したい元の文字列
+            String source = password;
+            //ハッシュ生成前にバイト配列に置き換える際のCharset
+            Charset charset = StandardCharsets.UTF_8;
+            //ハッシュアルゴリズム
+            String algorithm = "MD5";
+
+            //ハッシュ生成処理
+            byte[] bytes = MessageDigest.getInstance(algorithm).digest(source.getBytes(charset));
+            String result = DatatypeConverter.printHexBinary(bytes);
             pStmt.setString(1, loginId);
-            pStmt.setString(2, password);
+            pStmt.setString(2, result);
+
             ResultSet rs = pStmt.executeQuery();
 
              // 主キーに紐づくレコードは1件のみなので、rs.next()は1回だけ行う
@@ -95,7 +113,7 @@ public class UserDao {
             String nameData = rs.getString("name");
             return new User(loginIdData, nameData);
 
-        } catch (SQLException e) {
+        } catch (SQLException | NoSuchAlgorithmException e) {
             e.printStackTrace();
             return null;
         } finally {
@@ -126,7 +144,7 @@ public class UserDao {
 
             // SELECT文を準備
             // TODO: 未実装：管理者以外を取得するようSQLを変更する
-            String sql = "SELECT * FROM user";
+            String sql = "SELECT * FROM user WHERE login_id != 'admin'";
 
              // SELECTを実行し、結果表を取得
             Statement stmt = conn.createStatement();
@@ -135,6 +153,8 @@ public class UserDao {
             // 結果表に格納されたレコードの内容を
             // Userインスタンスに設定し、ArrayListインスタンスに追加
             while (rs.next()) {
+
+
                 int id = rs.getInt("id");
                 String loginId = rs.getString("login_id");
                 String name = rs.getString("name");
@@ -172,12 +192,24 @@ public class UserDao {
     		conn = DBManager.getConnection();
 
     		//UPDATE文を準備
-    		String sql = "UPDATE user SET password=?, name=?, birth_date=? WHERE login_id=?;";
+    		String sql = "UPDATE user SET password=?, name=?, birth_date=?, update_date=now() WHERE login_id=?;";
 
     		//UPDATEを実行
     		PreparedStatement stmt = conn.prepareStatement(sql);
 
-    		stmt.setString(1, password);
+    		//ハッシュを生成したい元の文字列
+    		String source = password;
+    		//ハッシュ生成前にバイト配列に置き換える際のCharset
+    		Charset charset = StandardCharsets.UTF_8;
+    		//ハッシュアルゴリズム
+    		String algorithm = "MD5";
+
+    		//ハッシュ生成処理
+    		byte[] bytes = MessageDigest.getInstance(algorithm).digest(source.getBytes(charset));
+    		String result = DatatypeConverter.printHexBinary(bytes);
+
+
+    		stmt.setString(1, result);
     		stmt.setString(2, name);
     		stmt.setString(3, birth_date);
     		stmt.setString(4, loginId);
@@ -185,7 +217,7 @@ public class UserDao {
     		stmt.executeUpdate();
     		stmt.close();
 
-    	}catch(SQLException e) {
+    	}catch(SQLException | NoSuchAlgorithmException e) {
     		e.printStackTrace();
     	}finally {
    		 // データベース切断
@@ -242,14 +274,27 @@ public class UserDao {
     		//INSERTを実行
     		PreparedStatement stmt = conn.prepareStatement(sql);
 
+    		//ハッシュを生成したい元の文字列
+            String source = password;
+            //ハッシュ生成前にバイト配列に置き換える際のCharset
+            Charset charset = StandardCharsets.UTF_8;
+            //ハッシュアルゴリズム
+            String algorithm = "MD5";
+
+            //ハッシュ生成処理
+            byte[] bytes = MessageDigest.getInstance(algorithm).digest(source.getBytes(charset));
+            String result = DatatypeConverter.printHexBinary(bytes);
+
     		stmt.setString(1,loginId);
-    		stmt.setString(2,password);
+    		stmt.setString(2,result);
     		stmt.setString(3,name);
     		stmt.setString(4,birth_date);
 
+
+
     		stmt.executeUpdate();
     		stmt.close();
-    	}catch(SQLException e) {
+    	}catch(SQLException | NoSuchAlgorithmException e) {
     		e.printStackTrace();
     	}finally {
     		 // データベース切断
@@ -271,7 +316,7 @@ public class UserDao {
     		conn = DBManager.getConnection();
 
     		//UPDATE文を準備
-    		String sql = "UPDATE user SET name=?, birth_date=? WHERE login_id=?;";
+    		String sql = "UPDATE user SET name=?, birth_date=?, update_date=now() WHERE login_id=?;";
 
     		//UPDATEを実行
     		PreparedStatement stmt = conn.prepareStatement(sql);
@@ -317,7 +362,6 @@ public class UserDao {
     			String name = rs.getString("name");
     			String birth_date = rs.getString("birth_date");
     			String create_date = rs.getString("create_date");
-
     		}
     		stmt.close();
     	}catch(SQLException e) {
@@ -333,7 +377,6 @@ public class UserDao {
     		}
     	}
     }
-
     /**
      * idに紐づくユーザ情報を取得する
      * @return
@@ -383,7 +426,4 @@ public class UserDao {
         }
         return null;
     }
-
-
 }
-

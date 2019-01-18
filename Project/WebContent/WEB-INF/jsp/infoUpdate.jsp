@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-${users.name} さん<p><a href="login">ログアウト</a></p><br>
+${users.name} さん<p><a href="LogoutServlet">ログアウト</a></p><br>
 
 <h1>ユーザ情報更新</h1>
 
@@ -27,7 +27,6 @@ ${users.name} さん<p><a href="login">ログアウト</a></p><br>
 パスワード(確認)	<input type="password" name=password2> <br>
 ユーザ名　<input type="text" name="name" value="${user.name}"><br>
 生年月日　<input type="date" name="birth_date" value="${user.birthDate}"><br>
-<input type="hidden" name="createDate" value="${user.createDate}">
 <input type="hidden" name="updateDate" value="${user.updateDate}">
 
 <input type="submit" value="更新"><br>

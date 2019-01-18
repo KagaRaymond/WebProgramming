@@ -36,6 +36,8 @@ public class infoUpdate extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
+
+
 		//リクエストパラメータの文字コードを指定
 		request.setCharacterEncoding("UTF-8");
 
@@ -45,6 +47,10 @@ public class infoUpdate extends HttpServlet {
 		User userInfo = userDao.findUserById(id);
 
 		request.setAttribute("user", userInfo);
+
+		if(userInfo == null) {
+			response.sendRedirect("login");
+		}
 
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/infoUpdate.jsp");

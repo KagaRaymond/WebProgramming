@@ -35,7 +35,6 @@ public class login extends HttpServlet {
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/login.jsp");
 		dispatcher.forward(request,  response);
-
 	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -57,7 +56,7 @@ public class login extends HttpServlet {
 		/** テーブルに該当のデータが見つからなかった場合　**/
 		if(user == null) {
 			//リクエストスコープにエラーメッセージをセット
-			request.setAttribute("errMsg","ログインに失敗しました。");
+			request.setAttribute("errMsg","ログインIDまたはパスワードが異なります");
 
 			//ログインjspにフォワード
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/login.jsp");
@@ -68,6 +67,7 @@ public class login extends HttpServlet {
 		// セッションにユーザの情報をセット
 		HttpSession session = request.getSession();
 		session.setAttribute("users", user);
+
 
 		// ユーザ一覧のサーブレットにリダイレクト
 		// リダイレクトは指定した名前のサーブレットにGETアクセス
