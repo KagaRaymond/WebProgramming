@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.UserDao;
 import model.User;
@@ -32,6 +33,14 @@ public class userInfo extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+
+		//セッションにログイン情報がない場合、ログイン画面に遷移する
+		HttpSession session = request.getSession();
+
+		if(session.getAttribute("users") == null) {
+			response.sendRedirect("login");
+			return;
+		}
 
 		//リクエストパラメータの文字コードを指定
 		request.setCharacterEncoding("UTF-8");

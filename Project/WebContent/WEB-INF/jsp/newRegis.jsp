@@ -8,6 +8,8 @@
 <title>Insert title here</title>
 </head>
 <body>
+
+
 ${users.name} さん<p><a href="LogoutServlet">ログアウト</a></p><br>
 
 <h1>ユーザ新規登録</h1>

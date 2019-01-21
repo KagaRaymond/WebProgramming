@@ -128,6 +128,84 @@ public class UserDao {
             }
         }
     }
+    /**
+     * 条件検索にて一覧取得
+     * @return
+     */
+
+    public List<User> searching(String loginIdA, String nameB, String birthDateC, String birthDateD) {
+        Connection conn = null;
+        List<User> userList = new ArrayList<User>();
+
+        try {
+            // データベースへ接続
+            conn = DBManager.getConnection();
+
+            // SELECT文を準備
+            // TODO: 未実装：管理者以外を取得するようSQLを変更する
+            String sql = "SELECT * FROM user WHERE login_id != 'admin'";
+
+            //ログインID（完全一致）
+            if(!loginIdA.isEmpty()) {
+            	sql = sql + " AND login_id='" + loginIdA + "'";
+            }
+
+            //ユーザ名（部分一致）
+            if(!nameB.isEmpty()) {
+            	sql = sql + "AND name LIKE '%" + nameB + "%'";
+            }
+
+            //生年月日（開始日と終了日の範囲内の日付に該当するもの）
+           if(!birthDateC.isEmpty() || !birthDateD.isEmpty()) {
+        	   if(birthDateD.isEmpty() && !birthDateC.isEmpty()) {
+        		   sql = sql + "AND birth_date >='" + birthDateC + "'";
+        	   }
+        	   if(birthDateC.isEmpty() && !birthDateD.isEmpty()) {
+        		   sql = sql + "AND birth_date <='" + birthDateD + "'";
+
+        	   }if(!birthDateC.isEmpty() && !birthDateD.isEmpty()) {
+        		   sql = sql + "AND birth_date >='" + birthDateC + "' AND birth_date <='" + birthDateD + "'";
+        	   }
+
+           }
+
+             // SELECTを実行し、結果表を取得
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            // 結果表に格納されたレコードの内容を
+            // Userインスタンスに設定し、ArrayListインスタンスに追加
+            while (rs.next()) {
+
+
+                int id = rs.getInt("id");
+                String loginId = rs.getString("login_id");
+                String name = rs.getString("name");
+                Date birthDate = rs.getDate("birth_date");
+                String password = rs.getString("password");
+                String createDate = rs.getString("create_date");
+                String updateDate = rs.getString("update_date");
+                User user = new User(id, loginId, name, birthDate, password, createDate, updateDate);
+
+                userList.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            // データベース切断
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+        }
+        return userList;
+    }
+
 
 
     /**
@@ -145,6 +223,7 @@ public class UserDao {
             // SELECT文を準備
             // TODO: 未実装：管理者以外を取得するようSQLを変更する
             String sql = "SELECT * FROM user WHERE login_id != 'admin'";
+
 
              // SELECTを実行し、結果表を取得
             Statement stmt = conn.createStatement();

@@ -9,15 +9,19 @@
 <title>ユーザ一覧画面</title>
 </head>
 <body>
+
+
 ${users.name} さん<p><a href="LogoutServlet">ログアウト</a></p>
-<form method="get" action="users">
 
 <h1>ユーザ一覧</h1>
 <p><a href="newRegis">新規登録</a></p><br>
-ログインid	<input type="text" id="id"><br>
-ユーザ名	<input type="text" name="name"><br>
-生年月日　<input type="date" name="birth" value="年/月/日">
-～　<input type="date" name="birth2" value="年/月/日"><br>
+
+<form method="post" action="users">
+
+ログインid	<input type="text" name="loginIdA"><br>
+ユーザ名	<input type="text" name="nameB"><br>
+生年月日　<input type="date" name="birthDateC" value="年/月/日">
+～　<input type="date" name="birthDateD" value="年/月/日"><br>
 <input type="submit" value="検索">
 </form>
 
